@@ -4,18 +4,17 @@
 
 class Rectangle {
 public:
-    Rectangle(int _x, int _y, int _width, int _height);
+  Rectangle(int _x, int _y, int _width, int _height);
 
-// private:
-    static int instance_count;
-    int id;
+  // TODO: Should these be private
+  // private:
+  static int instance_count;
+  int id;
 
-    int x;
-    int y;
-    int width;
-    int height;
+  int x;
+  int y;
+  int width;
+  int height;
 };
 
-
-
-std::ostream& operator<<(std::ostream& oss, const Rectangle& rectangle);
+std::ostream &operator<<(std::ostream &oss, const Rectangle &rectangle);

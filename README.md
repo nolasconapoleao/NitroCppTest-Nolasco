@@ -8,6 +8,8 @@ These instructions will get you a copy of the project up and running on your loc
 These are the dependencies for the compilation of all the targets
 ```
 cmake
+cmake-format
+clang-format
 ```
 <br/>
 
