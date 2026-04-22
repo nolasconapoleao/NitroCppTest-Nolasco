@@ -1,14 +1,21 @@
+#include <fstream>
+#include <nlohmann/json.hpp>
+
 #include "rectangle/Rectangle.h"
+using json = nlohmann::json;
 
 int main() {
-  Rectangle rect1{100, 100, 250, 80};
-  Rectangle rect2{120, 200, 250, 150};
-  Rectangle rect3{140, 160, 250, 100};
-  Rectangle rect4{160, 140, 350, 190};
+  std::ifstream f("/home/nolasco/Projects/Sandbox/cpp/Nitro/src/example.json");
+  json data = json::parse(f);
 
-  std::cout << rect1;
-  std::cout << rect2;
-  std::cout << rect3;
-  std::cout << rect4;
+  std::vector<Rectangle> vec;
+  vec.reserve(data["rects"].size());
+  for (const auto &val : data["rects"]) {
+    vec.emplace_back(Rectangle{val["x"].get<int>(), val["y"].get<int>(), val["w"].get<int>(), val["h"].get<int>()});
+  }
+
+  for (const auto &val : vec) {
+    std::cout << val;
+  }
   return 0;
 }
