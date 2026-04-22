@@ -5,7 +5,10 @@
             "label": "Run",
             "type": "shell",
             "command": [
-                "./run.sh"
+                "cd build || exit",
+                "&& cmake -DCMAKE_BUILD_TYPE=Debug  ..",
+                "&& make all -j",
+                "&& ./Nitro"
             ]
         },
         {
