@@ -1,4 +1,5 @@
 #!/bin/bash
 
-sudo apt install cmake cmake-format clang-format build-essential
+git submodule update --init --recursive
 
+sudo apt install cmake cmake-format clang-format build-essential

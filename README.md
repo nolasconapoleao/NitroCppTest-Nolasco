@@ -14,16 +14,17 @@ clang-format
 <br/>
 
 # Build instructions for development
-## Create make files for each target (via cmake)
+## Setup run/dev environment
+```
+chmod +x setup.sh # Run this once to make the script executable
+./setup.sh
+```
+
+## Run the console application
 Run the cmake command and output the make recipe in the build folder
 ```
-mkdir build
-cd build || exit
-#Build binary
-cmake -DCMAKE_BUILD_TYPE=Debug  ..
-make all -j"$(nproc)"
-#Run binary
-./Nitro
+chmod +x run.sh # Run this once to make the script executable
+./run.sh
 ```
 
 Run unit tests by running
