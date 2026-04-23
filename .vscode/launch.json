@@ -28,7 +28,7 @@
             "name": "(gdb) Launch Unit test",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/debug/${relativeFileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/build/${relativeFileDirname}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

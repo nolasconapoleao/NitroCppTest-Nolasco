@@ -5,5 +5,14 @@ create_test(${EXECUTABLE_NAME})
 target_link_libraries(
   ${EXECUTABLE_NAME}
   PUBLIC model::utilities
+)
+
+# unit_Intersector
+set(EXECUTABLE_NAME unit_Intersector)
+add_executable(${EXECUTABLE_NAME} unit_Intersector.cpp)
+create_test(${EXECUTABLE_NAME})
+target_link_libraries(
+  ${EXECUTABLE_NAME}
+  PUBLIC model::utilities
   PRIVATE nlohmann_json::nlohmann_json
 )
