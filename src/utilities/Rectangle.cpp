@@ -2,8 +2,8 @@
 #include "Rectangle.h"
 
 #include <array>
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 constexpr std::array<Point2d, 4> Rectangle::get_vertices() const {
   std::array<Point2d, 4> vertices{};
@@ -15,29 +15,32 @@ constexpr std::array<Point2d, 4> Rectangle::get_vertices() const {
 }
 
 bool Rectangle::contains(const Point2d p) const {
-  return (p.x > x && p.x < x + width) && p.y > y && p.y < y + height;
+  return (p.x >= x && p.x <= x + width) && p.y >= y && p.y <= y + height;
 }
 
 std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) {
+  // TODO: Optimize for identical rectangles
   for (const auto &vertex : other.get_vertices()) {
     // One vertex contained is enough for intersection
     if (contains(vertex)) {
-      const auto xIntersection {std::max(x, other.x)};
-      const auto yIntersection {std::max(y, other.y)};
-      const auto widthIntersection {std::min(x + width, other.x + other.width)};
-      const auto heightIntersection {std::min(y + height, other.y + other.height)};
-      return Rectangle {xIntersection, yIntersection, widthIntersection - xIntersection, heightIntersection - yIntersection};
+      const auto xIntersection{std::max(x, other.x)};
+      const auto yIntersection{std::max(y, other.y)};
+      const auto widthIntersection{std::min(x + width, other.x + other.width)};
+      const auto heightIntersection{std::min(y + height, other.y + other.height)};
+      return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
+                       heightIntersection - yIntersection};
     }
   }
 
-    for (const auto &vertex : get_vertices()) {
+  for (const auto &vertex : get_vertices()) {
     // One vertex contained is enough for intersection
     if (other.contains(vertex)) {
-      const auto xIntersection {std::max(x, other.x)};
-      const auto yIntersection {std::max(y, other.y)};
-      const auto widthIntersection {std::min(x + width, other.x + other.width)};
-      const auto heightIntersection {std::min(y + height, other.y + other.height)};
-      return Rectangle {xIntersection, yIntersection, widthIntersection - xIntersection, heightIntersection - yIntersection};
+      const auto xIntersection{std::max(x, other.x)};
+      const auto yIntersection{std::max(y, other.y)};
+      const auto widthIntersection{std::min(x + width, other.x + other.width)};
+      const auto heightIntersection{std::min(y + height, other.y + other.height)};
+      return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
+                       heightIntersection - yIntersection};
     }
   }
 
@@ -46,7 +49,6 @@ std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) {
 }
 
 std::ostream &operator<<(std::ostream &oss, const Rectangle &rectangle) {
-  oss << "(" << rectangle.x << "," << rectangle.y << "), w=" << rectangle.width
-      << ", h=" << rectangle.height;
+  oss << "(" << rectangle.x << "," << rectangle.y << "), w=" << rectangle.width << ", h=" << rectangle.height;
   return oss;
 }

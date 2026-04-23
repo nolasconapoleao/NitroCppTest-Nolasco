@@ -1,17 +1,17 @@
-#include <ostream>
 #include <optional>
+#include <ostream>
 
 #pragma once
 
 struct Point2d {
-  int x {};
-  int y {};
+  int x{};
+  int y{};
 };
 
 struct Rectangle {
   [[nodiscard]] std::optional<Rectangle> intersect(const Rectangle &other);
   constexpr std::array<Point2d, 4> get_vertices() const;
-  bool contains(const Point2d)const;
+  bool contains(const Point2d) const;
 
   int x;
   int y;

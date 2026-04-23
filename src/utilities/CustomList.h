@@ -1,6 +1,6 @@
-#include "Rectangle.h"
+#include <vector>
 
-#include<vector>
+#include "Rectangle.h"
 
 #pragma once
 
@@ -11,14 +11,13 @@ struct Intersection {
 
 std::ostream &operator<<(std::ostream &oss, const Intersection &intersection);
 
-
 class RectangleVector {
 public:
   RectangleVector() = default;
   void parseFromJson(const std::string &filepath);
   void print();
-  [[nodiscard]] std::vector<Intersection> calculate_intersections(long unsigned int level=0);
+  [[nodiscard]] std::vector<Intersection> calculate_intersections();
 
 private:
-  std::vector<Rectangle> rectangles {};
+  std::vector<Rectangle> rectangles{};
 };
