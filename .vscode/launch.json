@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/${config:ProjectName}",
-            "args": [],
+            "args": ["example.json"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

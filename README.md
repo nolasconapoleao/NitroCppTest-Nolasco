@@ -16,20 +16,31 @@ clang-format
 # Build instructions for development
 ## Setup run/dev environment
 ```
-chmod +x setup.sh # Make the script executable
-./setup.sh
+# Catch2 lib for unit tests
+git submodule update --init --recursive
+apt install cmake cmake-format clang-format build-essential
 ```
 
 ## Run the console application
-Run the cmake command and output the make recipe in the build folder
 ```
-chmod +x run.sh # Make the script executable
-./run.sh filepath
+mkdir build
+cd build || exit
+
+#Build binary
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make all -j"$(nproc)"
+
+#Run project executable
+#Change ../example.json to the json filepath
+./Nitro ../example.json
 ```
 
 ## Run unit tests
 ```
-make all && make test
+cd build || exit
+cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=ON ..
+make all
+make test
 ```
 
 ## Future work

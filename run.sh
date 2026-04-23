@@ -10,4 +10,5 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 make all -j"$(nproc)"
 
 #Run project executable
-./Nitro
+#Change ../example.json to the json filepath
+./Nitro ../example.json

@@ -54,6 +54,7 @@ void Intersector::printRectangles() {
   };
 }
 
+//TODO: Optimization: Two identical rectangles don't need to be tested, any intersection for A also exists for B
 [[nodiscard]] std::vector<Intersection> Intersector::calculate_intersections() {
   // Search space for intersections should avoid ii <= jj, since a rectangle intersects itself and A & B equals B & A
   std::vector<Intersection> result;
