@@ -1,10 +1,8 @@
 #include "CustomList.h"
 
-#include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
+#include <fstream>
 
-using json = nlohmann::json;
 
 std::ostream &operator<<(std::ostream &oss, const Intersection &intersection) {
   // Important: Beware of zero indexing in print
@@ -19,16 +17,15 @@ std::ostream &operator<<(std::ostream &oss, const Intersection &intersection) {
   return oss;
 }
 
-void RectangleVector::parseFromJson(const std::string &filepath) {
+void RectangleVector::parseFromFile(const std::string &filepath) {
   std::ifstream f(filepath);
   json data = json::parse(f);
+  parse(data);
+}
 
-  // TODO: Check input sanity
-  rectangles.reserve(data["rects"].size());
-  for (const auto &val : data["rects"]) {
-    rectangles.emplace_back(
-        Rectangle{val["x"].get<int>(), val["y"].get<int>(), val["w"].get<int>(), val["h"].get<int>()});
-  }
+void RectangleVector::parseFromString(const std::string &fileDump) {
+  json data = json::parse(fileDump);
+  parse(data);
 }
 
 void RectangleVector::print() {
@@ -65,3 +62,13 @@ void RectangleVector::print() {
   }
   return result;
 };
+
+
+void RectangleVector::parse(const json &data) {
+ // TODO: Check input sanity
+  rectangles.reserve(data["rects"].size());
+  for (const auto &val : data["rects"]) {
+    rectangles.emplace_back(
+        Rectangle{val["x"].get<int>(), val["y"].get<int>(), val["w"].get<int>(), val["h"].get<int>()});
+  }
+}

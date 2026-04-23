@@ -1,9 +1,17 @@
+#pragma once
+
+#include <nlohmann/json.hpp>
 #include <vector>
 
 #include "Rectangle.h"
 
-#pragma once
+using json = nlohmann::json;
 
+/**
+ * @brief Represents an intersection entry
+ * @param indexes list of rectangle indexes from the input (0 indexed)
+ * @param rectangle rectangle produced by intersecting the rectangles
+ */
 struct Intersection {
   std::vector<uint> indexes;
   Rectangle rectangle;
@@ -14,10 +22,13 @@ std::ostream &operator<<(std::ostream &oss, const Intersection &intersection);
 class RectangleVector {
 public:
   RectangleVector() = default;
-  void parseFromJson(const std::string &filepath);
+  /// @brief Unit test utility
+  void parseFromString(const std::string &fileDump);
+  void parseFromFile(const std::string &filepath);
   void print();
   [[nodiscard]] std::vector<Intersection> calculate_intersections();
 
 private:
+  void parse(const nlohmann::json &json);
   std::vector<Rectangle> rectangles{};
 };
