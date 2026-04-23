@@ -5,8 +5,12 @@
 #include "utilities/Intersector.h"
 
 int main() {
+  const std::string filepath {"/home/nolasco/Projects/Sandbox/cpp/Nitro/src/example.json"};
   Intersector intersector{};
-  intersector.parseFromFile("/home/nolasco/Projects/Sandbox/cpp/Nitro/src/example.json");
+  if(!intersector.parseFromFile(filepath)) {
+    return 1;
+  }
+  
   std::cout << "Input:\n";
   intersector.printRectangles();
 

@@ -6,8 +6,6 @@ rm -rf build
 mkdir build
 cd build || exit
 #Build binary
-cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=ON ..
 make all -j"$(nproc)"
-
-#Run project executable
-./Nitro
+make test -j

@@ -22,13 +22,13 @@ std::ostream &operator<<(std::ostream &oss, const Intersection &intersection);
 class Intersector {
 public:
   Intersector() = default;
-  /// @brief Unit test utility
-  void parseFromString(const std::string &fileDump);
-  void parseFromFile(const std::string &filepath);
+  [[nodiscard]] bool parseFromString(const std::string &fileDump);
+  [[nodiscard]] bool parseFromFile(const std::string &filepath);
   [[nodiscard]] std::vector<Intersection> calculate_intersections();
   void printRectangles();
-  
+  /// @brief Unit test utility
+  void clear();
 private:
-  void parse(const nlohmann::json &json);
+  [[nodiscard]] bool parse(const nlohmann::json &j);
   std::vector<Rectangle> rectangles{};
 };

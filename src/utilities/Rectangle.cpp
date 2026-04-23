@@ -19,11 +19,11 @@ bool Rectangle::contains(const Point2d p) const {
 }
 
 std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) const {
+  // If rectangles specs are the same, return this rectangle
   if (*this == other) {
     return *this;
   }
 
-  // TODO: Optimize for identical rectangles
   for (const auto &vertex : other.get_vertices()) {
     // One vertex contained is enough for intersection
     if (contains(vertex)) {
@@ -31,7 +31,6 @@ std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) const {
       const auto yIntersection{std::max(y, other.y)};
       const auto widthIntersection{std::min(x + width, other.x + other.width)};
       const auto heightIntersection{std::min(y + height, other.y + other.height)};
-      // FIXME: Check that area is not 0
       if (widthIntersection != 0 && heightIntersection != 0) {
         return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
                          heightIntersection - yIntersection};

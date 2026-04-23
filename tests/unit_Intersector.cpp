@@ -4,26 +4,38 @@
 
 std::string three_of_the_same{R"(
 {
-    "rects": [
-        {"x": 100, "y": 100, "w": 250, "h": 80 },
-        {"x": 100, "y": 100, "w": 250, "h": 80 },
-        {"x": 100, "y": 100, "w": 250, "h": 80 }
-    ]
+  "rects": [
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 100, "y": 100, "w": 250, "h": 80 }
+  ]
 })"};
 
 std::string requirement_sheet{R"({
-      "rects": [
-          {"x": 100, "y": 100, "w": 250, "h": 80 },
-          {"x": 120, "y": 200, "w": 250, "h": 150 },
-          {"x": 140, "y": 160, "w": 250, "h": 100 },
-          {"x": 160, "y": 140, "w": 350, "h": 190 }
-      ]
-  })"};
+  "rects": [
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 120, "y": 200, "w": 250, "h": 150 },
+      {"x": 140, "y": 160, "w": 250, "h": 100 },
+      {"x": 160, "y": 140, "w": 350, "h": 190 }
+  ]
+})"};
 
+
+TEST_CASE("Json Smoke Tests", "[Json]") {
+  Intersector intersector{};
+  // No valid rectangles (xa instead of x)
+  REQUIRE(!intersector.parseFromString(R"({ "rects": [{"xa": 100, "y": 100, "w": 250, "h": 80 }]} )"));
+  // No rects field
+  REQUIRE(!intersector.parseFromString(R"({ "one": "Roderick", "role": "Barbarian" })"));
+
+  // Valid json
+  REQUIRE(intersector.parseFromString(R"({ "rects": [{"x": 100, "y": 100, "w": 250, "h": 80 }]} )"));
+  intersector.clear();
+}
 
 TEST_CASE("Three equal rectangles", "[Intersector]") {
   Intersector intersector{};
-  intersector.parseFromString(three_of_the_same);
+  REQUIRE(intersector.parseFromString(three_of_the_same));
   const auto intersections{intersector.calculate_intersections()};
 
   REQUIRE(intersections.size() == 4);
@@ -35,7 +47,7 @@ TEST_CASE("Three equal rectangles", "[Intersector]") {
 
 TEST_CASE("Requirement sheet", "[Intersector]") {
   Intersector intersector{};
-  intersector.parseFromString(requirement_sheet);
+  REQUIRE(intersector.parseFromString(requirement_sheet));
   const auto intersections{intersector.calculate_intersections()};
 
   REQUIRE(intersections.size() == 7);

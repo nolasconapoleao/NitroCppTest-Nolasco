@@ -16,15 +16,34 @@ std::ostream &operator<<(std::ostream &oss, const Intersection &intersection) {
   return oss;
 }
 
-void Intersector::parseFromFile(const std::string &filepath) {
+bool Intersector::parseFromFile(const std::string &filepath) {
   std::ifstream f(filepath);
-  json data = json::parse(f);
-  parse(data);
+  if (!f.is_open()) {
+    std::cerr << "Incorrect file path or json file does not exist\n";
+    return false;
+  }
+
+  try {
+    json data = json::parse(f);
+    return parse(data);
+  } catch (...) {
+    std::cerr << "Invalid json schema";
+    return false;
+  }
 }
 
-void Intersector::parseFromString(const std::string &fileDump) {
-  json data = json::parse(fileDump);
-  parse(data);
+bool Intersector::parseFromString(const std::string &fileDump) {
+  try {
+    json data = json::parse(fileDump);
+    return parse(data);
+  } catch (...) {
+    std::cerr << "Invalid json schema";
+    return false;
+  }
+}
+
+void Intersector::clear() {
+  rectangles.clear();
 }
 
 void Intersector::printRectangles() {
@@ -62,11 +81,22 @@ void Intersector::printRectangles() {
   return result;
 };
 
-void Intersector::parse(const json &data) {
-  // TODO: Check input sanity
-  rectangles.reserve(data["rects"].size());
-  for (const auto &val : data["rects"]) {
-    rectangles.emplace_back(
-        Rectangle{val["x"].get<int>(), val["y"].get<int>(), val["w"].get<int>(), val["h"].get<int>()});
+bool Intersector::parse(const json &j) {
+  // Smoke tests
+  if (!j.contains("rects")) {
+    std::cerr << "Json file has no rects field\n";
+    return false;
   }
+
+  rectangles.reserve(j["rects"].size());
+  for (const auto &val : j["rects"]) {
+    // Skip invalid lines in json
+    if (val.contains("x") && val.contains("y") && val.contains("w") && val.contains("h")) {
+      rectangles.emplace_back(
+          Rectangle{val["x"].get<int>(), val["y"].get<int>(), val["w"].get<int>(), val["h"].get<int>()});
+    }
+  }
+
+  //Failed to parse unless more than 1 rectangle captured
+  return (rectangles.size()!=0);
 }

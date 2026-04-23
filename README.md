@@ -16,24 +16,27 @@ clang-format
 # Build instructions for development
 ## Setup run/dev environment
 ```
-chmod +x setup.sh # Run this once to make the script executable
+chmod +x setup.sh # Make the script executable
 ./setup.sh
 ```
 
 ## Run the console application
 Run the cmake command and output the make recipe in the build folder
 ```
-chmod +x run.sh # Run this once to make the script executable
-./run.sh
+chmod +x run.sh # Make the script executable
+./run.sh filepath
 ```
 
-Run unit tests by running
+## Run unit tests
 ```
 make all && make test
 ```
 
 ## Future work
-- TODO
+- Documentation doxygen
+- Dynamic analysis
+- Static analysis hook
+- Coverage
 <br/><br/>
 
 ## Authors
