@@ -4,5 +4,6 @@ add_executable(${EXECUTABLE_NAME} unit_Rectangle.cpp)
 create_test(${EXECUTABLE_NAME})
 target_link_libraries(
   ${EXECUTABLE_NAME}
-  model::Rectangle
+  PUBLIC model::utilities
+  PRIVATE nlohmann_json::nlohmann_json
 )

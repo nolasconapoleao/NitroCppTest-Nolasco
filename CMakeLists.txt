@@ -17,12 +17,18 @@ target_include_directories(
   PRIVATE ${CMAKE_SOURCE_DIR}/external ${CMAKE_SOURCE_DIR}/src
 )
 
-#Third party json parser
+# Third party json parser
 include(FetchContent)
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_Declare(
+  json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+)
 FetchContent_MakeAvailable(json)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC model::Rectangle PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC model::utilities
+  PRIVATE nlohmann_json::nlohmann_json
+)
 
 add_subdirectory(src)
 
