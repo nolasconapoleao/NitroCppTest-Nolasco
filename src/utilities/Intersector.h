@@ -19,15 +19,15 @@ struct Intersection {
 
 std::ostream &operator<<(std::ostream &oss, const Intersection &intersection);
 
-class RectangleVector {
+class Intersector {
 public:
-  RectangleVector() = default;
+  Intersector() = default;
   /// @brief Unit test utility
   void parseFromString(const std::string &fileDump);
   void parseFromFile(const std::string &filepath);
-  void print();
   [[nodiscard]] std::vector<Intersection> calculate_intersections();
-
+  void printRectangles();
+  
 private:
   void parse(const nlohmann::json &json);
   std::vector<Rectangle> rectangles{};

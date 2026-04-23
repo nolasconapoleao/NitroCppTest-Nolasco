@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-constexpr std::array<Point2d, 4> Rectangle::get_vertices() const {
+std::array<Point2d, 4> Rectangle::get_vertices() const {
   std::array<Point2d, 4> vertices{};
   vertices[0] = Point2d{x, y};
   vertices[1] = Point2d{x + width, y};
@@ -18,7 +18,7 @@ bool Rectangle::contains(const Point2d p) const {
   return (p.x >= x && p.x <= x + width) && p.y >= y && p.y <= y + height;
 }
 
-std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) {
+std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) const {
   // TODO: Optimize for identical rectangles
   for (const auto &vertex : other.get_vertices()) {
     // One vertex contained is enough for intersection
@@ -27,11 +27,15 @@ std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) {
       const auto yIntersection{std::max(y, other.y)};
       const auto widthIntersection{std::min(x + width, other.x + other.width)};
       const auto heightIntersection{std::min(y + height, other.y + other.height)};
-      return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
-                       heightIntersection - yIntersection};
+      // FIXME: Check that area is not 0
+      if (widthIntersection != 0 && heightIntersection != 0) {
+        return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
+                         heightIntersection - yIntersection};
+      }
     }
   }
 
+  // FIXME: Repeated code, this reverts rectangles
   for (const auto &vertex : get_vertices()) {
     // One vertex contained is enough for intersection
     if (other.contains(vertex)) {
@@ -39,8 +43,11 @@ std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) {
       const auto yIntersection{std::max(y, other.y)};
       const auto widthIntersection{std::min(x + width, other.x + other.width)};
       const auto heightIntersection{std::min(y + height, other.y + other.height)};
-      return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
-                       heightIntersection - yIntersection};
+
+      if (widthIntersection != 0 && heightIntersection != 0) {
+        return Rectangle{xIntersection, yIntersection, widthIntersection - xIntersection,
+                         heightIntersection - yIntersection};
+      }
     }
   }
 

@@ -9,8 +9,8 @@ struct Point2d {
 };
 
 struct Rectangle {
-  [[nodiscard]] std::optional<Rectangle> intersect(const Rectangle &other);
-  constexpr std::array<Point2d, 4> get_vertices() const;
+  [[nodiscard]] std::optional<Rectangle> intersect(const Rectangle &other) const;
+  std::array<Point2d, 4> get_vertices() const;
   bool contains(const Point2d) const;
 
   int x;

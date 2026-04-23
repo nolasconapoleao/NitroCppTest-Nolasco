@@ -1,8 +1,7 @@
-#include "CustomList.h"
+#include "Intersector.h"
 
-#include <iostream>
 #include <fstream>
-
+#include <iostream>
 
 std::ostream &operator<<(std::ostream &oss, const Intersection &intersection) {
   // Important: Beware of zero indexing in print
@@ -17,18 +16,18 @@ std::ostream &operator<<(std::ostream &oss, const Intersection &intersection) {
   return oss;
 }
 
-void RectangleVector::parseFromFile(const std::string &filepath) {
+void Intersector::parseFromFile(const std::string &filepath) {
   std::ifstream f(filepath);
   json data = json::parse(f);
   parse(data);
 }
 
-void RectangleVector::parseFromString(const std::string &fileDump) {
+void Intersector::parseFromString(const std::string &fileDump) {
   json data = json::parse(fileDump);
   parse(data);
 }
 
-void RectangleVector::print() {
+void Intersector::printRectangles() {
   // Important: Beware of zero indexing in print
   auto id{1u};
   for (const auto &rect : rectangles) {
@@ -36,7 +35,7 @@ void RectangleVector::print() {
   };
 }
 
-[[nodiscard]] std::vector<Intersection> RectangleVector::calculate_intersections() {
+[[nodiscard]] std::vector<Intersection> Intersector::calculate_intersections() {
   // Search space for intersections should avoid ii <= jj, since a rectangle intersects itself and A & B equals B & A
   std::vector<Intersection> result;
   for (auto ii{0u}; ii < rectangles.size(); ii++) {
@@ -63,9 +62,8 @@ void RectangleVector::print() {
   return result;
 };
 
-
-void RectangleVector::parse(const json &data) {
- // TODO: Check input sanity
+void Intersector::parse(const json &data) {
+  // TODO: Check input sanity
   rectangles.reserve(data["rects"].size());
   for (const auto &val : data["rects"]) {
     rectangles.emplace_back(
