@@ -20,3 +20,4 @@ struct Rectangle {
 };
 
 std::ostream &operator<<(std::ostream &oss, const Rectangle &rectangle);
+bool operator==(const Rectangle &lhs, const Rectangle &rhs);

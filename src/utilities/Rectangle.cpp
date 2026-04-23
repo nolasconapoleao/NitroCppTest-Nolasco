@@ -15,10 +15,14 @@ std::array<Point2d, 4> Rectangle::get_vertices() const {
 }
 
 bool Rectangle::contains(const Point2d p) const {
-  return (p.x >= x && p.x <= x + width) && p.y >= y && p.y <= y + height;
+  return (p.x > x && p.x < x + width) && p.y > y && p.y < y + height;
 }
 
 std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) const {
+  if (*this == other) {
+    return *this;
+  }
+
   // TODO: Optimize for identical rectangles
   for (const auto &vertex : other.get_vertices()) {
     // One vertex contained is enough for intersection
@@ -58,4 +62,8 @@ std::optional<Rectangle> Rectangle::intersect(const Rectangle &other) const {
 std::ostream &operator<<(std::ostream &oss, const Rectangle &rectangle) {
   oss << "(" << rectangle.x << "," << rectangle.y << "), w=" << rectangle.width << ", h=" << rectangle.height;
   return oss;
+}
+
+bool operator==(const Rectangle &lhs, const Rectangle &rhs) {
+  return lhs.x == rhs.x && lhs.y == rhs.y && lhs.width == rhs.width && lhs.height == rhs.height;
 }
