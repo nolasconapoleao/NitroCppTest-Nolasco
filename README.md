@@ -1,6 +1,19 @@
 # Nitro C++ Proficiency Test
 Nitro C++ Proficiency Test.<br/><br/>
 
+## Author note
+```
+/src : source code
+/tests : unit tests
+/tools : cmake utilities
+/.vscode : IDE setup
+/external : Unit tests single include library Catch2
+```
+Algorithm insights:<br/>
+Brute forcing the problem means checking n! (factorial) combinations for n input rectangles, this is not ideal. Instead we know 2 things:
+- A&B is the same as B&A which means we can skip combinations where the index of the second element is smaller than the first.
+- An intersection of 3 rectangles only exists if the simpler intersection of 2 rectangles exists
+
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.<br/><br/>
 
