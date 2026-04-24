@@ -10,7 +10,7 @@ using json = nlohmann::json;
 /**
  * @brief Represents an intersection entry
  * @param indexes list of rectangle indexes from the input (0 indexed)
- * @param rectangle rectangle produced by intersecting the rectangles
+ * @param rectangle produced by intersecting the rectangles
  */
 struct Intersection {
   std::vector<uint> indexes;

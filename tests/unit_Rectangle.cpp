@@ -42,7 +42,6 @@ TEST_CASE("Rectangle Point collision", "[Rectangle]") {
   REQUIRE(!r.contains(Point2d{200, 300}));
 }
 
-// FIXME: Still broken
 TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
   const Rectangle base{0, 100, 200, 300};
 
@@ -51,17 +50,17 @@ TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
   REQUIRE(intersection.has_value());
   REQUIRE(intersection == base);
 
-  // Shared border means 0 area intersection
+  // Shared border means no intersection
   const Rectangle r1{200, 100, 200, 300};
   REQUIRE(!base.intersect(r1).has_value());
   REQUIRE(!r1.intersect(base).has_value());
 
-  // 0 Vertex inside base
+  // 0 Vertex inside base rectangle
   const Rectangle r2{0, 200, 200, 300};
   REQUIRE(!base.intersect(r2).has_value());
   REQUIRE(!r2.intersect(base).has_value());
 
-  // 1 Vertex inside base
+  // 1 Vertex inside base rectangle
   const Rectangle r3{100, 200, 200, 300};
   const Rectangle expected_ir3{100, 200, 100, 200};
   intersection = base.intersect(r3);
@@ -72,7 +71,7 @@ TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
   REQUIRE(intersection.has_value());
   REQUIRE(intersection.value() == expected_ir3);
 
-  // 2 Vertex inside base
+  // 2 Vertex inside base rectangle
   const Rectangle r4{100, 200, 200, 100};
   const Rectangle expected_ir4{100, 200, 100, 100};
   intersection = r4.intersect(base);
@@ -83,7 +82,7 @@ TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
   REQUIRE(intersection.has_value());
   REQUIRE(intersection.value() == expected_ir4);
 
-  // 4 Vertex inside base
+  // 4 Vertex inside base rectangle
   const Rectangle r5{100, 200, 50, 50};
   intersection = base.intersect(r5);
   REQUIRE(intersection.has_value());
