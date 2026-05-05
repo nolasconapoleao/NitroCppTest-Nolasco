@@ -11,6 +11,16 @@ std::string three_of_the_same{R"(
   ]
 })"};
 
+std::string four_of_the_same{R"(
+{
+  "rects": [
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 100, "y": 100, "w": 250, "h": 80 },
+      {"x": 100, "y": 100, "w": 250, "h": 80 }
+  ]
+})"};
+
 std::string requirement_sheet{R"({
   "rects": [
       {"x": 100, "y": 100, "w": 250, "h": 80 },
@@ -45,17 +55,36 @@ TEST_CASE("Three equal rectangles", "[Intersector]") {
   REQUIRE(intersections[3].indexes.size() == 3);
 }
 
+TEST_CASE("Four equal rectangles", "[Intersector]") {
+  Intersector intersector{};
+  REQUIRE(intersector.parseFromString(four_of_the_same));
+  const auto intersections{intersector.calculate_intersections()};
+
+  REQUIRE(intersections.size() == 11);
+  REQUIRE(intersections[0].indexes.size() == 2);    // AB
+  REQUIRE(intersections[1].indexes.size() == 2);    // AC
+  REQUIRE(intersections[2].indexes.size() == 2);    // AD
+  REQUIRE(intersections[3].indexes.size() == 2);    // BC
+  REQUIRE(intersections[4].indexes.size() == 2);    // BD
+  REQUIRE(intersections[5].indexes.size() == 2);    // CD
+  REQUIRE(intersections[6].indexes.size() == 3);    // ABC
+  REQUIRE(intersections[7].indexes.size() == 3);    // ABD
+  REQUIRE(intersections[8].indexes.size() == 3);    // ACD
+  REQUIRE(intersections[9].indexes.size() == 3);    // BCD
+  REQUIRE(intersections[10].indexes.size() == 4);   // ABCD
+}
+
 TEST_CASE("Requirement sheet", "[Intersector]") {
   Intersector intersector{};
   REQUIRE(intersector.parseFromString(requirement_sheet));
   const auto intersections{intersector.calculate_intersections()};
 
   REQUIRE(intersections.size() == 7);
-  REQUIRE(intersections[0].indexes.size() == 2);
-  REQUIRE(intersections[1].indexes.size() == 2);
-  REQUIRE(intersections[2].indexes.size() == 2);
-  REQUIRE(intersections[3].indexes.size() == 2);
-  REQUIRE(intersections[4].indexes.size() == 2);
-  REQUIRE(intersections[5].indexes.size() == 3);
-  REQUIRE(intersections[6].indexes.size() == 3);
+  REQUIRE(intersections[0].indexes.size() == 2);    // AB
+  REQUIRE(intersections[1].indexes.size() == 2);    // AC
+  REQUIRE(intersections[2].indexes.size() == 2);    // AD
+  REQUIRE(intersections[3].indexes.size() == 2);    // BC
+  REQUIRE(intersections[4].indexes.size() == 2);    // BD
+  REQUIRE(intersections[5].indexes.size() == 3);    // CD
+  REQUIRE(intersections[6].indexes.size() == 3);    // ABC
 }
