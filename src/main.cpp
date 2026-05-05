@@ -4,7 +4,10 @@
 
 #include "utilities/Intersector.h"
 
-int main(int, char *argv[]) {
+int main(int argc, char *argv[]) {
+  if(argc >1) {
+    return 1;
+  }
   const std::string filepath{argv[1]};
   Intersector intersector{};
   if (!intersector.parseFromFile(filepath)) {
