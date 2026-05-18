@@ -1,13 +1,13 @@
-
 #include <iostream>
 #include <iterator>
 
 #include "utilities/Intersector.h"
 
 int main(int argc, char *argv[]) {
-  if(argc >1) {
+  if (argc < 2) {
     return 1;
   }
+
   const std::string filepath{argv[1]};
   Intersector intersector{};
   if (!intersector.parseFromFile(filepath)) {
