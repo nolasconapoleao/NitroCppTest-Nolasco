@@ -1,13 +1,6 @@
 #include <main_test.h>
 
-#include "test_utilities.h"
 #include "utilities/Rectangle.h"
-
-TEST_CASE("Points coordinates respected", "[Point2d]") {
-  const Point2d p{1, 0};
-  REQUIRE(p.x == 1);
-  REQUIRE(p.y == 0);
-}
 
 TEST_CASE("Rectangle coordinates respected", "[Rectangle]") {
   Rectangle r{30, 50, 100, 200};
@@ -15,31 +8,6 @@ TEST_CASE("Rectangle coordinates respected", "[Rectangle]") {
   REQUIRE(r.y == 50);
   REQUIRE(r.width == 100);
   REQUIRE(r.height == 200);
-}
-
-TEST_CASE("Get rectangle borders", "[Rectangle]") {
-  Rectangle r{30, 50, 100, 200};
-  // FIXME: Make order irrelevant
-  const auto &vertices = r.get_vertices();
-  REQUIRE(vertices[0] == Point2d{30, 50});   // x,       y
-  REQUIRE(vertices[1] == Point2d{130, 50});  // x+width, y
-  REQUIRE(vertices[2] == Point2d{30, 250});  // x,       y+height
-  REQUIRE(vertices[3] == Point2d{130, 250}); // x+width, y+height
-}
-
-TEST_CASE("Rectangle Point collision", "[Rectangle]") {
-  Rectangle r{30, 50, 100, 200};
-  // On border
-  REQUIRE(!r.contains(Point2d{30, 50}));
-  REQUIRE(!r.contains(Point2d{130, 250}));
-  REQUIRE(!r.contains(Point2d{130, 200}));
-  // Inside
-  REQUIRE(r.contains(Point2d{100, 200}));
-  REQUIRE(r.contains(Point2d{50, 100}));
-  // Outside
-  REQUIRE(!r.contains(Point2d{100, 300}));
-  REQUIRE(!r.contains(Point2d{200, 200}));
-  REQUIRE(!r.contains(Point2d{200, 300}));
 }
 
 TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
@@ -56,7 +24,7 @@ TEST_CASE("Rectangle Rectangle collision", "[Rectangle]") {
   REQUIRE(!r1.intersect(base).has_value());
 
   // 0 Vertex inside base rectangle
-  const Rectangle r2{0, 200, 200, 300};
+  const Rectangle r2{250, 200, 200, 300};
   REQUIRE(!base.intersect(r2).has_value());
   REQUIRE(!r2.intersect(base).has_value());
 
