@@ -42,7 +42,7 @@
                 "&& cd build || exit",
                 "&& cmake -DENABLE_TESTS=ON ..",
                 "&& make all",
-                "&& make test -j", 
+                "&& ctest --output-on-failure", 
             ]
         }
     ]
